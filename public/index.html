@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Book a Cab — CabGo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<nav class="navbar"></nav>
+
+<main class="page">
+  <h1 class="page-title">Book a <span>Cab</span></h1>
+  <p class="page-sub">Schedule your ride in advance — no live tracking needed.</p>
+
+  <div id="alert" class="alert"></div>
+
+  <div class="card">
+    <div class="card-title">📍 Step 1 — Pickup &amp; Drop</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Pickup Street</label>
+        <input type="text" id="pickup_street" placeholder="e.g. 12 MG Road">
+      </div>
+      <div class="form-group">
+        <label>Pickup City</label>
+        <input type="text" id="pickup_city" placeholder="e.g. Delhi">
+      </div>
+      <div class="form-group">
+        <label>Pickup Pincode</label>
+        <input type="text" id="pickup_pincode" maxlength="6" placeholder="110001">
+      </div>
+      <div class="form-group">
+        <label>Drop Street</label>
+        <input type="text" id="drop_street" placeholder="e.g. 5 Sector 18">
+      </div>
+      <div class="form-group">
+        <label>Drop City</label>
+        <input type="text" id="drop_city" placeholder="e.g. Noida">
+      </div>
+      <div class="form-group">
+        <label>Drop Pincode</label>
+        <input type="text" id="drop_pincode" maxlength="6" placeholder="201301">
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🚗 Step 2 — Ride Details</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Cab Type</label>
+        <select id="cab_type">
+          <option value="">Select type…</option>
+          <option>Mini</option>
+          <option>Sedan</option>
+          <option>SUV</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Driver</label>
+        <select id="driver_id"><option value="">Loading…</option></select>
+      </div>
+      <div class="form-group">
+        <label>Cab</label>
+        <select id="cab_id"><option value="">Loading…</option></select>
+      </div>
+      <div class="form-group">
+        <label>Date</label>
+        <input type="date" id="date">
+      </div>
+      <div class="form-group">
+        <label>Time</label>
+        <input type="time" id="time">
+      </div>
+      <div class="form-group">
+        <label>Distance (km)</label>
+        <input type="number" id="distance_km" placeholder="e.g. 15" min="1">
+      </div>
+    </div>
+
+    <div class="fare-box" id="fareBox">
+      <div class="fare-amount" id="fareAmt">₹0</div>
+      <div class="fare-label">Estimated Fare</div>
+      <div class="fare-meta">
+        <div><span>Distance: </span><strong id="fareDist">—</strong></div>
+        <div><span>ETA: </span><strong id="fareETA">—</strong></div>
+        <div><span>Type: </span><strong id="fareType">—</strong></div>
+      </div>
+    </div>
+
+    <div style="margin-top:1.25rem;display:flex;gap:.75rem;flex-wrap:wrap;">
+      <button class="btn btn-outline" onclick="estimateFare()">💡 Estimate Fare</button>
+      <button class="btn btn-primary" id="bookBtn" onclick="bookRide()">🚕 Confirm Booking</button>
+    </div>
+  </div>
+
+  <div id="bookingResult" style="display:none;" class="card">
+    <div class="card-title">✅ Booking Confirmed</div>
+    <div id="resultDetails"></div>
+    <div style="margin-top:1rem;display:flex;gap:.75rem;">
+      <a id="statusLink" href="#" class="btn btn-outline btn-sm">🔄 Track Status</a>
+      <a id="payLink"    href="#" class="btn btn-outline btn-sm">💳 Pay Now</a>
+    </div>
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/book.js"></script>
+<script>
+  requireLogin();
+  renderNavbar('index.html');
+</script>
+</body>
+</html>

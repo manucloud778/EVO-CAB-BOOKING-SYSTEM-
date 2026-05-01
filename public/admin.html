@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Admin Dashboard — CabGo</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .admin-nav {
+      position:sticky; top:0; z-index:100;
+      background:rgba(13,13,15,.95);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:.9rem 2rem;
+    }
+    .admin-nav .logo { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--yellow); }
+    .admin-nav .logo span { color:var(--text); }
+    .admin-badge {
+      background:rgba(245,197,24,.12);
+      border:1px solid rgba(245,197,24,.3);
+      color:var(--yellow);
+      font-size:.72rem; font-weight:700; letter-spacing:.06em;
+      padding:.2rem .6rem; border-radius:99px;
+      text-transform:uppercase;
+    }
+  </style>
+</head>
+<body>
+
+<nav class="admin-nav">
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <div class="logo">🚕 <span>Cab</span>Go</div>
+    <span class="admin-badge">Admin</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:.75rem;">
+    <span style="color:var(--muted);font-size:.85rem;" id="adminName"></span>
+    <button class="btn btn-outline btn-sm" onclick="adminLogout()">Logout</button>
+  </div>
+</nav>
+
+<main class="page">
+  <h1 class="page-title"><span>Admin</span> Dashboard</h1>
+  <p class="page-sub">Manage all bookings, customers, drivers, and cabs.</p>
+
+  <!-- Stats -->
+  <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem;">
+    <div class="card" style="text-align:center;padding:1.25rem">
+      <div style="font-size:2rem;font-family:'Syne',sans-serif;font-weight:800;color:var(--yellow)" id="statBookings">—</div>
+      <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem">Total Bookings</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1.25rem">
+      <div style="font-size:2rem;font-family:'Syne',sans-serif;font-weight:800;color:var(--warning)" id="statPending">—</div>
+      <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem">Pending</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1.25rem">
+      <div style="font-size:2rem;font-family:'Syne',sans-serif;font-weight:800;color:var(--success)" id="statCompleted">—</div>
+      <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem">Completed</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1.25rem">
+      <div style="font-size:2rem;font-family:'Syne',sans-serif;font-weight:800;color:var(--info)" id="statArrived">—</div>
+      <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem">Arrived</div>
+    </div>
+    <div class="card" style="text-align:center;padding:1.25rem">
+      <div style="font-size:2rem;font-family:'Syne',sans-serif;font-weight:800;color:var(--danger)" id="statCancelled">—</div>
+      <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem">Cancelled</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div style="display:flex;gap:.5rem;margin-bottom:1rem;flex-wrap:wrap;" id="tabBtns">
+    <button class="btn btn-primary  btn-sm" onclick="showTab('bookings',this)">All Bookings</button>
+    <button class="btn btn-outline btn-sm" onclick="showTab('customers',this)">Customers</button>
+    <button class="btn btn-outline btn-sm" onclick="showTab('drivers',this)">Drivers</button>
+    <button class="btn btn-outline btn-sm" onclick="showTab('cabs',this)">Cabs</button>
+  </div>
+
+  <div id="tab-bookings" class="card tab-panel">
+    <div class="card-title">📋 All Bookings</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Date</th><th>Time</th><th>Customer</th><th>Driver</th><th>Cab</th><th>From</th><th>To</th><th>Status</th><th>Action</th></tr></thead>
+        <tbody id="bookingsBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-customers" class="card tab-panel" style="display:none;">
+    <div class="card-title">👥 Customers</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>Email</th><th>City</th><th>Phones</th><th>Joined</th></tr></thead>
+        <tbody id="customersBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-drivers" class="card tab-panel" style="display:none;">
+    <div class="card-title">🧑‍✈️ Drivers</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>License</th><th>Phones</th></tr></thead>
+        <tbody id="driversBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div id="tab-cabs" class="card tab-panel" style="display:none;">
+    <div class="card-title">🚗 Cabs</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>Type</th><th>Model</th><th>Plate</th></tr></thead>
+        <tbody id="cabsBody"></tbody>
+      </table>
+    </div>
+  </div>
+</main>
+
+<script src="js/auth.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  requireAdmin();
+  const admin = Auth.getAdmin();
+  if (admin) document.getElementById('adminName').textContent = `👤 ${admin.username}`;
+</script>
+</body>
+</html>

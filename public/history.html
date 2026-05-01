@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Booking History — CabGo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="navbar"></nav>
+<main class="page">
+  <h1 class="page-title">Booking <span>History</span></h1>
+  <p class="page-sub">All your past and upcoming rides.</p>
+  <div id="alert" class="alert"></div>
+  <div id="historySection" class="card">
+    <div class="card-title">🗂 Your Rides</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>#</th><th>Date</th><th>Time</th>
+          <th>From</th><th>To</th><th>Cab</th>
+          <th>Driver</th><th>Status</th><th>Actions</th>
+        </tr></thead>
+        <tbody id="historyBody"></tbody>
+      </table>
+    </div>
+    <div id="emptyState" class="empty" style="display:none;">
+      <div class="empty-icon">🚗</div>
+      <p>No bookings found.</p>
+    </div>
+  </div>
+</main>
+<script src="js/auth.js"></script>
+<script src="js/history.js"></script>
+<script>
+  requireLogin();
+  renderNavbar('history.html');
+  // Auto-load for logged in customer
+  const cust = Auth.getCustomer();
+  if (cust) loadHistory(cust.id);
+</script>
+</body>
+</html>

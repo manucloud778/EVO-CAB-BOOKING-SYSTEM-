@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Payment — CabGo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<nav class="navbar"></nav>
+<main class="page">
+  <h1 class="page-title">Make <span>Payment</span></h1>
+  <p class="page-sub">Pay for your completed ride.</p>
+  <div id="alert" class="alert"></div>
+  <div class="card">
+    <div class="card-title">🔍 Enter Booking ID</div>
+    <div class="form-grid">
+      <div class="form-group">
+        <label>Booking ID</label>
+        <input type="number" id="booking_id" placeholder="e.g. 1">
+      </div>
+    </div>
+    <button class="btn btn-primary" style="margin-top:1rem" onclick="fetchForPayment()">Load Booking</button>
+  </div>
+  <div id="payCard" class="card" style="display:none;">
+    <div class="card-title">💳 Payment Details</div>
+    <div id="rideSummary"></div>
+    <div class="divider"></div>
+    <div class="form-group" style="margin-bottom:1rem;">
+      <label>Amount (₹)</label>
+      <input type="number" id="amount" placeholder="e.g. 250" min="1">
+    </div>
+    <div class="form-group"><label>Payment Method</label></div>
+    <div class="pay-methods" id="payMethods">
+      <div class="pay-method" data-method="UPI"  onclick="selectMethod(this)"><div class="pm-icon">📱</div><div class="pm-label">UPI</div></div>
+      <div class="pay-method" data-method="Card" onclick="selectMethod(this)"><div class="pm-icon">💳</div><div class="pm-label">Card</div></div>
+      <div class="pay-method" data-method="Cash" onclick="selectMethod(this)"><div class="pm-icon">💵</div><div class="pm-label">Cash</div></div>
+    </div>
+    <button class="btn btn-primary" id="payBtn" onclick="submitPayment()">Pay Now</button>
+  </div>
+  <div id="successCard" class="card" style="display:none;">
+    <div style="text-align:center;padding:1.5rem 0;">
+      <div style="font-size:3rem;margin-bottom:.5rem;">✅</div>
+      <div style="font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--success);">Payment Successful!</div>
+      <p style="color:var(--muted);margin-top:.5rem;" id="payConfirmText"></p>
+      <a href="history.html" class="btn btn-outline" style="margin-top:1.25rem;">View History</a>
+    </div>
+  </div>
+</main>
+<script src="js/auth.js"></script>
+<script src="js/payment.js"></script>
+<script>
+  requireLogin();
+  renderNavbar('payment.html');
+</script>
+</body>
+</html>
